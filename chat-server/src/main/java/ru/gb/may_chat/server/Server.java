@@ -11,8 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static ru.gb.may_chat.constants.MessageConstants.REGEX;
-import static ru.gb.may_chat.enums.Command.BROADCAST_MESSAGE;
-import static ru.gb.may_chat.enums.Command.LIST_USERS;
+import static ru.gb.may_chat.enums.Command.*;
 
 public class Server {
     private static final int PORT = 8189;
@@ -48,6 +47,14 @@ public class Server {
         for (Handler handler : handlers) {
             handler.send(msg);
         }
+    }
+
+    public void privateMessage(String from,String who, String message) {
+       String msg = PRIVATE_MESSAGE.getCommand() + REGEX + String.format("[%s]: %s", from, message);
+        for (Handler handler : handlers) {
+            if(handler.getUser().equals(who)) {handler.send(msg);}
+        }
+
     }
 
     public UserService getUserService() {
