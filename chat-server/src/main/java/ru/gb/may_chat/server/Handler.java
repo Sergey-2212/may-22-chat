@@ -56,9 +56,10 @@ public class Handler {
     private void parseMessage(String message) {
         String[] split = message.split(REGEX);
         Command command = Command.getByCommand(split[0]);
-
+        System.out.println("parseMessage  " + this.getUser());
         switch (command) {
             case BROADCAST_MESSAGE -> server.broadcast(user, split[1]);
+            case PRIVATE_MESSAGE -> server.privateMessage(user, split[2], split[1]);
             default -> System.out.println("Unknown message " + message);
         }
     }
